@@ -23,9 +23,6 @@ figure_w2h_prop = 1.618
 figure_width = 500  # in pixels, 1 px = 0.264583 mm
 figure_height = int(figure_width / figure_w2h_prop)
 
-# subfigure_w2h_prop = 1.0
-# subfigure_width = 300
-# subfigure_height = int(subfigure_width / subfigure_w2h_prop)
 subfigure_w2h_prop = 1.33
 subfigure_width = 400
 subfigure_height = int(subfigure_width / subfigure_w2h_prop)
@@ -1191,82 +1188,3 @@ def edit_all_plot_text(plot, text_font='Calibri', title_size='11pt', text_size='
         plot.legend.label_text_font_size = text_size
         plot.legend.label_text_font_style = 'normal'
     return plot
-
-
-
-if __name__ == '__main__':
-    np.random.seed(0)
-    # data_atlas = pd.read_parquet(r"\\umcfs013\RTHdata$\Research\Junior_Researcher_2019\NTCP_simulations\atlas.parquet")
-    # # data_atlas = pd.read_csv(r"\\umcfs013\RTHdata$\Research\Junior_Researcher_2019\NTCP Comparison project\NKI_NTCP_comparison_data_Manual_Atlas_DL_Heart_ALL.csv")
-    output_file(r'G:\Documents\Projects\NTCP project\René work\NTCP_simulations\bokeh.html')
-    #
-    # args = {
-    #     'data': data_atlas.copy(),
-    #     'model_organ': 'Heart_dosemean',
-    #     'base_organ': 'Heart_dosemean',
-    #     'test_organ': 'Heart_miguel_dosemean',
-    #     # 'test_organ': 'Heart_atlas_dosemean',
-    #     # 'test_organ': 'r',
-    #     'parameters': {'d_50': (1.0, False), 'gamma': (1.0, False), 'offset': (0, True)},
-    #     'n_iterations': 500,
-    #     'fraction': 1,
-    #     'ntcp_type': 'logistic',
-    #     'maxfev_curvefit': 5000
-    # }
-    #
-    # # np.random.seed(0) # for repeatability
-    #
-    # my_experiment = NTCPExperiment(**args)
-    #
-    # my_experiment.normalise_data()
-    #
-    # my_experiment.execute(calculate_bootstrap=True, parallel=True)
-    #
-    # my_experiment.plot()
-    #
-    # print(my_experiment.return_parameters())
-
-    # results = pd.read_csv(r"G:\Documents\Projects\NTCP project\René work\NTCP_simulations\all_results.csv")
-    # conditions = pd.DataFrame(
-    #     [['Heart_dosemean', 'Heart_miguel_dosemean', 1], ['Heart_dosemean', 'Heart_atlas_dosemean', 1]],
-    #     columns=['base_organ', 'organ', 'fraction_of_data'])
-    # title = 'MHD: manual as the ground truth'
-    # legends = ['AT: DL', 'AT: Atlas']
-    # colors = ['navy', 'red']
-    # x_axis_label = 'Gamma'
-    # y_axis_label = 'Percentage Ground Truth Significantly Better'
-    # plot = plot_fraction_better_vs_slope(results, 'slope', 'fraction_better', conditions, legends, colors, title=title,
-    #                                      x_axis_label=x_axis_label, y_axis_label=y_axis_label, y_range=[0, 1.02],
-    #                                      x_range=[0, 2.0])
-    # # export_svg(plot, filename='MHD manual as the ground truth.svg')
-    # show(plot)
-
-    data_all = pd.read_csv(
-        r"\\umcfs013\RTHdata$\Research\Junior_Researcher_2019\NTCP Comparison project\NKI_NTCP_comparison_data_Manual_Atlas_DL_Heart_ALL.csv")
-    results = pd.read_csv(
-        r"G:\Documents\Projects\NTCP project\René work\NTCP_simulations\long_simulation_04august_3000_it3_ground_truth.csv")
-
-    y_axis_label = 'Fraction Ground Truth Significantly Better'
-    y_axis_auc_label = 'Mean Pairwise AUC Difference'
-    y_axis_aic_label = 'Mean Pairwise AIC Difference'
-    gamma_axis_label = '\N{MATHEMATICAL ITALIC SMALL GAMMA}'
-    gamma_x_range = [0, 1.57]
-    y_range = [0, 1.05]
-    v_axis_label = 'V (Gy)'
-
-    colors = ['#3E6F89', '#BD481E', '#194734', '#EBA729', '#B098A4']
-
-    np.random.seed(0)  # for repeatability
-    conditions = pd.DataFrame(
-        [['AutomaticMHD', 'ManualMHD', 1], ['AutomaticMHD', 'AtlasMHD', 1]],
-        columns=['base_organ', 'organ', 'fraction_of_data'])
-    title = 'MHD: DL as the ground truth'
-    legends = ['AT: Manual', 'AT: Atlas']
-    plot = plot_line_plus_std(results, 'slope', 'mean_pairwise_auc_difference', conditions, legends, colors[:2],
-                              error_column='std_pairwise_auc_difference',
-                              error_type='whisker', title=title, output_backend='svg', x_axis_label=gamma_axis_label,
-                              y_range=y_range, x_range=gamma_x_range)
-    # export_svg(plot, filename='MHD DL as the ground truth [Mean Pairwise AUC Difference].svg')
-    show(plot)
-
-
